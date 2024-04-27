@@ -4,8 +4,8 @@ namespace Domain.ValueObject;
 
 public class CustomerRole : CSharpFunctionalExtensions.ValueObject
 {
-    public static CustomerRole Base => new CustomerRole();
-    public static CustomerRole Special => new CustomerRole();
+    public static CustomerRole Base => new CustomerRole(0);
+    public static CustomerRole Special => new CustomerRole(1);
 
     public static List<CustomerRole> _all = [Base, Special];
     

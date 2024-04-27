@@ -8,7 +8,7 @@ public class NotificationStatus : CSharpFunctionalExtensions.ValueObject
     public static NotificationStatus Sended => new NotificationStatus(1);
     public static NotificationStatus Rejected => new NotificationStatus(2);
 
-    public static List<NotificationStatus> _all => [Created, Sended, Rejected];
+    protected static List<NotificationStatus> _all => [Created, Sended, Rejected];
     
     public int Value { get; init; }
 
