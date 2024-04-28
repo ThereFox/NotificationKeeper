@@ -9,7 +9,7 @@ public class NotificationBlueprintEntity
     public string Subject { get; private set; }
     public string Content { get; private set; }
     
-    public string Channel { get; private set; }
+    public int Channel { get; private set; }
     
     public DateTime CreatedAt { get; private set; }
     

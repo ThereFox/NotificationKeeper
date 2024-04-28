@@ -9,12 +9,14 @@ public class Device
     
     public NotificationChannel NotificationChannel { get; private set; }
     
+    public string Token { get; private set; }
+    
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     
     public bool IsActive { get; private set; }
 
-    public static Result<Device> Create(Guid id, NotificationChannel notificationChannel, DateTime createdAt,
+    public static Result<Device> Create(Guid id, string token, NotificationChannel notificationChannel, DateTime createdAt,
         DateTime updatedAt, bool isActive)
     {
         if (
@@ -28,13 +30,14 @@ public class Device
             return Result.Failure<Device>("invalid time");
         }
 
-        return Result.Success<Device>(new Device(id, notificationChannel, createdAt, updatedAt, isActive));
+        return Result.Success<Device>(new Device(id, notificationChannel, token, createdAt, updatedAt, isActive));
 
     }
     
-    protected Device(Guid id, NotificationChannel notificationChannel, DateTime createdAt, DateTime updatedAt, bool isActive)
+    protected Device(Guid id, NotificationChannel notificationChannel, string token, DateTime createdAt, DateTime updatedAt, bool isActive)
     {
         Id = id;
+        Token = token;
         NotificationChannel = notificationChannel;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;

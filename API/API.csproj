@@ -71,7 +71,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controlls\" />
+      <ProjectReference Include="..\App\App.csproj" />
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Infrastructure.MessageBrocker\Infrastructure.MessageBrocker.csproj" />
+      <ProjectReference Include="..\Persistense\Persistense.csproj" />
     </ItemGroup>
 
 </Project>

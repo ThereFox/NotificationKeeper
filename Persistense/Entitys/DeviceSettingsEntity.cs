@@ -8,7 +8,7 @@ public class DeviceSettingsEntity
     
     public string DeviceToken { get; private set; }
     
-    public string NotificationChannel { get; private set; }
+    public int NotificationChannel { get; private set; }
     
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }

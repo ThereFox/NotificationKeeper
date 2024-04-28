@@ -1,3 +1,4 @@
+using App.Notifications;
 using App.Stores;
 using CSharpFunctionalExtensions;
 using Domain.Entitys;
@@ -11,6 +12,8 @@ public class NotificationService
     protected IBlueprintStore _blueprintStore;
     protected INotificationStore _mainStore;
 
+    protected INotificationSender _sender;
+    
     public NotificationService(ICustomerStore customers, IBlueprintStore blueprints, INotificationStore notifications)
     {
         _customerStore = customers;
@@ -36,16 +39,23 @@ public class NotificationService
 
         var customer = getCustomerResult.Value;
         var blueprint = getBlueprintResult.Value;
+
+        if (canSendNotificationByChannel(customer, blueprint))
+        {
+            return Result.Failure("notification channel unawaliable");
+        }
         
-        if (await HasTooManyNotificationInDayForUser(CustomerId))
+        if (await hasTooManyNotificationInDayForUser(CustomerId))
         {
             
             return Result.Failure("too many notification in day");
         }
 
         var id = Guid.NewGuid();
+
+        var device = customer.Devices.First(ex => ex.NotificationChannel == blueprint.Channel && ex.IsActive == true);
         
-        var createMessageResult = Notification.Create(id, customer, blueprint, NotificationStatus.Created, DateTime.Now, null );
+        var createMessageResult = Notification.Create(id, device, blueprint, NotificationStatus.Created, DateTime.Now, null );
 
         if (createMessageResult.IsFailure)
         {
@@ -61,10 +71,12 @@ public class NotificationService
             return Result.Failure(saveResult.Error);
         }
 
-        return Result.Success();
+        var sendResult = await _sender.SendNotification(message);
+        
+        return sendResult;
     }
 
-    private async Task<bool> HasTooManyNotificationInDayForUser(Guid userId)
+    private async Task<bool> hasTooManyNotificationInDayForUser(Guid userId)
     {
         var getCountOfNotificationResult = await _customerStore.GetCountOfNotificationByDay(userId);
 
@@ -78,4 +90,11 @@ public class NotificationService
         return countOfNotification + 1 >= Notification.MaxCountByDay;
 
     }
+
+    private bool canSendNotificationByChannel(Customer recipient, Blueprint blueprint)
+    {
+        return recipient.Devices.Any(ex => ex.NotificationChannel == blueprint.Channel);
+    }
+
+
 }
