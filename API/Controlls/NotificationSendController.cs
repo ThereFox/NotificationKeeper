@@ -15,6 +15,7 @@ public class NotificationSendController : Controller
     }
     
     
+    [HttpPost("api/v1/notification/notify")]
     public async Task<IActionResult> Notify([FromBody] SendNotificationRequest request)
     {
 

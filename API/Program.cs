@@ -1,25 +1,27 @@
+using App;
+using Infrastructure.Kafka;
+using Microsoft.EntityFrameworkCore;
+using Persistense;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services
+    .AddPersistense(ex => ex.UseNpgsql(builder.Configuration.GetConnectionString("Notification")))
+    .AddMessageBrocker()
+    .AddApp();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+//app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.MapControllerRoute(
+    "default",
+    "/{controller}/{action}"
+    );
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
+app.Map("/test", () => "test");
 
 app.Run();

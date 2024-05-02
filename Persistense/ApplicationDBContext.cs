@@ -19,6 +19,8 @@ public class ApplicationDBContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDBContext).Assembly);
+
+        modelBuilder.Entity<CustomerEntity>().HasData(new CustomerEntity() {  });
     }
     
 }

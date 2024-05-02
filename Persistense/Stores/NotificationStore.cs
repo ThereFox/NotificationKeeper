@@ -9,7 +9,12 @@ namespace Persistense.Stores;
 public class NotificationStore : INotificationStore
 {
     protected readonly ApplicationDBContext _context;
-    
+
+    public NotificationStore(ApplicationDBContext context)
+    {
+        _context = context;
+    }
+
     public async Task<Result> Create(Notification notification)
     {
         try
