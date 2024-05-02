@@ -6,15 +6,15 @@ using Domain.ValueObject;
 
 namespace App.Services;
 
-public class NotificationService
+public sealed class NotificationService
 {
-    protected ICustomerStore _customerStore;
-    protected IBlueprintStore _blueprintStore;
-    protected INotificationStore _mainStore;
+    private ICustomerStore _customerStore;
+    private IBlueprintStore _blueprintStore;
+    private INotificationStore _mainStore;
 
-    protected INotificationSender _sender;
+    private INotificationSender _sender;
     
-    public NotificationService(ICustomerStore customers, IBlueprintStore blueprints, INotificationStore notifications)
+    public NotificationService(ICustomerStore customers, IBlueprintStore blueprints, INotificationStore notifications, INotificationSender sender)
     {
         _customerStore = customers;
         _blueprintStore = blueprints;

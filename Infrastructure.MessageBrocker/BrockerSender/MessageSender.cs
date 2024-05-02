@@ -11,7 +11,12 @@ public class MessageSender : INotificationSender
 {
     protected readonly IProducer<Null, string> _messageProduser;
 
-    private readonly Dictionary<NotificationChannel , string> TopicNames = new Dictionary<NotificationChannel, string>()
+    public MessageSender(IProducer<Null, string> messageProduser)
+    {
+        _messageProduser = messageProduser;
+    }
+
+    private readonly Dictionary<NotificationChannel , string> TopicNames = new()
     {
         { NotificationChannel.SMS, "SmsMessages" },
         { NotificationChannel.Android, "AndroidMessages" },
@@ -33,7 +38,7 @@ public class MessageSender : INotificationSender
             
             var deliveryResult = await _messageProduser.ProduceAsync(TopicNames[notificationChannel], message);
 
-            if (deliveryResult.Status == PersistenceStatus.NotPersisted)
+            if (deliveryResult.Status != PersistenceStatus.Persisted)
             {
                 return Result.Failure("error");
             }

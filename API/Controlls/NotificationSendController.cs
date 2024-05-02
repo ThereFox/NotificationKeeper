@@ -19,11 +19,11 @@ public class NotificationSendController : Controller
     public async Task<IActionResult> Notify([FromBody] SendNotificationRequest request)
     {
 
-        if (Guid.TryParse(request.BlueprintId, out var blueprintGuid))
+        if (Guid.TryParse(request.BlueprintId, out var blueprintGuid) == false)
         {
             return BadRequest("invalid input data");
         }
-        if (Guid.TryParse(request.CustomerId, out var customerGuid))
+        if (Guid.TryParse(request.CustomerId, out var customerGuid) == false)
         {
             return BadRequest("invalid input data");
         }
