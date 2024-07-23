@@ -14,6 +14,7 @@ public class ApplicationDBContext : DbContext
     
     public ApplicationDBContext(DbContextOptions<ApplicationDBContext> DBconfiguration) : base(DBconfiguration)
     {
+        this.Database.EnsureDeleted();
         this.Database.EnsureCreated();
     }
     
@@ -21,9 +22,35 @@ public class ApplicationDBContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDBContext).Assembly);
 
-        var baseCustomer = new CustomerEntity() { Id = Guid.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"), CreatedAt = DateTime.MinValue, UserName = "ThereFox", Role = CustomerRole.Base.Value };
-        var baseCustomerDevice = new DeviceSettingsEntity() { CustomerId = baseCustomer.Id, IsActive = true, CreatedAt = DateTime.MinValue, DeviceToken = "test", NotificationChannel = NotificationChannel.Email.Value, Id = Guid.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"), UpdatedAt = DateTime.MinValue};
-        var hellowBlueprint = new NotificationBlueprintEntity() { Id = Guid.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"), Channel = NotificationChannel.Email.Value, CreatedAt = DateTime.MinValue, Content = "Hi", Name = "Default", Subject = "Hellow"};
+        var baseCustomer = new CustomerEntity()
+        {
+            Id = Guid.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
+            CreatedAt = DateTime.MinValue,
+            UserName = "ThereFox",
+            Role = CustomerRole.Base.Value,
+        };
+        var baseCustomerDevice = new DeviceSettingsEntity()
+        {
+            IsActive = true,
+            CreatedAt = DateTime.MinValue,
+            DeviceToken = "test",
+            NotificationChannel = NotificationChannel.Email.Value,
+            Id = Guid.NewGuid(),//.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
+            UpdatedAt = DateTime.MinValue
+        };
+
+        baseCustomer.AllDevices = [baseCustomerDevice];
+        //baseCustomerDevice.Owner = baseCustomer;
+
+        var hellowBlueprint = new NotificationBlueprintEntity()
+        {
+            Id = Guid.Parse("b7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
+            Channel = NotificationChannel.Email.Value,
+            CreatedAt = DateTime.MinValue,
+            Content = "Hi",
+            Name = "Default",
+            Subject = "Hellow"
+        };
         
         
         modelBuilder.Entity<CustomerEntity>().HasData(baseCustomer);

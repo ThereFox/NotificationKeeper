@@ -13,16 +13,17 @@ public static class DI
     {
         var config = new ProducerConfig
         {
-            BootstrapServers = "localhost:29092",
-            ClientId = Dns.GetHostName()
+            BootstrapServers = "localhost:9092", //"brocker:9092",
+            EnableIdempotence = true,
         };
         
-        collection.AddTransient<INotificationSender, MessageSender>();
-
-        var producer = new ProducerBuilder<Null, string>(config).Build();
+        var producer = new ProducerBuilder<Null, string>(config)
+            .Build();
         
         collection.AddSingleton(producer);
-        
+
+        collection.AddSingleton<INotificationSender, MessageSender>();
+
         return collection;
     }
 }

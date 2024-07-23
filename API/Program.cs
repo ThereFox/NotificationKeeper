@@ -6,10 +6,10 @@ using Persistense;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddMvc();
 
 builder.Services
-    .AddPersistense(ex => ex.UseNpgsql(builder.Configuration.GetConnectionString("Notification")))
+    .AddPersistense(builder.Configuration)
     .AddMessageBrocker()
     .AddApp();
 
@@ -19,7 +19,7 @@ var app = builder.Build();
 
 app.MapControllerRoute(
     "default",
-    "/{controller}/{action}"
+    "/api/v1/{controller}/{action}"
     );
 
 app.Map("/test", () => "test");

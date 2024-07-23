@@ -15,7 +15,7 @@ public class NotificationSendController : Controller
     }
     
     
-    [HttpPost("api/v1/notification/notify")]
+    [HttpPost]
     public async Task<IActionResult> Notify([FromBody] SendNotificationRequest request)
     {
 
@@ -27,6 +27,7 @@ public class NotificationSendController : Controller
         {
             return BadRequest("invalid input data");
         }
+
 
         var sendResult = await _service.Send(blueprintGuid, customerGuid);
 

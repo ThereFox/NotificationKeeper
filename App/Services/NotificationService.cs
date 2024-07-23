@@ -14,7 +14,11 @@ public sealed class NotificationService
 
     private INotificationSender _sender;
     
-    public NotificationService(ICustomerStore customers, IBlueprintStore blueprints, INotificationStore notifications, INotificationSender sender)
+    public NotificationService(
+        ICustomerStore customers,
+        IBlueprintStore blueprints,
+        INotificationStore notifications,
+        INotificationSender sender)
     {
         _customerStore = customers;
         _blueprintStore = blueprints;
@@ -27,7 +31,7 @@ public sealed class NotificationService
         
         if (getCustomerResult.IsFailure)
         {
-            return Result.Failure($"dont contain customer with Id {CustomerId}");
+            return Result.Failure($"dont contain customer with Id {CustomerId}, info {getCustomerResult.Error}");
         }
 
         var getBlueprintResult = await _blueprintStore.Get(BlueprintId);
@@ -40,7 +44,7 @@ public sealed class NotificationService
         var customer = getCustomerResult.Value;
         var blueprint = getBlueprintResult.Value;
 
-        if (canSendNotificationByChannel(customer, blueprint))
+        if (canSendNotificationByChannel(customer, blueprint) == false)
         {
             return Result.Failure("notification channel unawaliable");
         }
@@ -71,6 +75,7 @@ public sealed class NotificationService
             return Result.Failure(saveResult.Error);
         }
 
+
         var sendResult = await _sender.SendNotification(message);
         
         return sendResult;
@@ -93,7 +98,12 @@ public sealed class NotificationService
 
     private bool canSendNotificationByChannel(Customer recipient, Blueprint blueprint)
     {
-        return recipient.Devices.Any(ex => ex.NotificationChannel == blueprint.Channel);
+        if(recipient.Devices.Count == 0)
+        {
+            return false;
+        }
+
+        return recipient.Devices.Any(ex => ex != null && ex.NotificationChannel == blueprint.Channel);
     }
 
 
