@@ -14,7 +14,7 @@ public class ApplicationDBContext : DbContext
     
     public ApplicationDBContext(DbContextOptions<ApplicationDBContext> DBconfiguration) : base(DBconfiguration)
     {
-        this.Database.EnsureDeleted();
+        //this.Database.EnsureDeleted();
         this.Database.EnsureCreated();
     }
     
@@ -36,10 +36,11 @@ public class ApplicationDBContext : DbContext
             DeviceToken = "test",
             NotificationChannel = NotificationChannel.Email.Value,
             Id = Guid.NewGuid(),//.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
-            UpdatedAt = DateTime.MinValue
+            UpdatedAt = DateTime.MinValue,
+            CustomerId = baseCustomer.Id
         };
 
-        baseCustomer.AllDevices = [baseCustomerDevice];
+        //baseCustomer.AllDevices = [baseCustomerDevice];
         //baseCustomerDevice.Owner = baseCustomer;
 
         var hellowBlueprint = new NotificationBlueprintEntity()

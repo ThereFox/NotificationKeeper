@@ -27,7 +27,7 @@ public class Device
             updatedAt >= DateTime.Now
             )
         {
-            return Result.Failure<Device>("invalid time");
+            //return Result.Failure<Device>("invalid time");
         }
 
         return Result.Success<Device>(new Device(id, notificationChannel, token, createdAt, updatedAt, isActive));

@@ -1,5 +1,6 @@
 using App;
 using Infrastructure.Kafka;
+using Infrastructure.Loging;
 using Microsoft.EntityFrameworkCore;
 using Persistense;
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc();
 
 builder.Services
+    .AddSpecialClickhouseLogger(builder.Configuration.GetConnectionString("ClickHouse"))
     .AddPersistense(builder.Configuration)
     .AddMessageBrocker()
     .AddApp();

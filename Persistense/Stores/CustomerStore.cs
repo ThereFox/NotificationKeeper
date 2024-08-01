@@ -22,8 +22,8 @@ public class CustomerStore : ICustomerStore
 
             var customer = await _context
                 .CustomerEntities
-                .AsNoTracking()
                 .Include(ex => ex.AllDevices)
+                .AsNoTracking()
                 .FirstAsync(ex => ex.Id == Id);
 
             var validateCustomerRole = CustomerRole.Create(customer.Role);

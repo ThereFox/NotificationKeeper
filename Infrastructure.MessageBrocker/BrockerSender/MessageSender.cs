@@ -35,13 +35,14 @@ public class MessageSender : INotificationSender
             {
                 Value = request.ToString(),
             };
-            
-            var deliveryResult = await _messageProduser.ProduceAsync(TopicNames[notificationChannel], message);
 
-            if (deliveryResult.Status != PersistenceStatus.Persisted)
-            {
-                return Result.Failure("error");
-            }
+            //var deliveryResult = 
+                _messageProduser.Produce(TopicNames[notificationChannel], message);
+
+            //if (deliveryResult.Status != PersistenceStatus.Persisted)
+            //{
+            //    return Result.Failure("error");
+            //}
 
             return Result.Success();
         }

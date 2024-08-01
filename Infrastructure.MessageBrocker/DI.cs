@@ -13,12 +13,12 @@ public static class DI
     {
         var config = new ProducerConfig
         {
-            BootstrapServers = "localhost:9092", //"brocker:9092",
-            EnableIdempotence = true,
+            BootstrapServers = "localhost:29092"
         };
         
         var producer = new ProducerBuilder<Null, string>(config)
             .Build();
+
         
         collection.AddSingleton(producer);
 

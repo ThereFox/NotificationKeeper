@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense", "Persistense\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MessageBrocker", "Infrastructure.MessageBrocker\Infrastructure.MessageBrocker.csproj", "{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Loging", "Infrastructure.Loging\Infrastructure.Loging.csproj", "{2CF3B28B-65CA-4D5B-9728-A70C17A72812}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{904E19A5-AF34-4F9E-A819-D860D46D0C4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +43,19 @@ Global
 		{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF3B28B-65CA-4D5B-9728-A70C17A72812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF3B28B-65CA-4D5B-9728-A70C17A72812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF3B28B-65CA-4D5B-9728-A70C17A72812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF3B28B-65CA-4D5B-9728-A70C17A72812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C53AB04C-3ADD-49CB-84D7-C14C5F0E8AE1}
 	EndGlobalSection
 EndGlobal
