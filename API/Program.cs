@@ -1,16 +1,20 @@
 using App;
 using Infrastructure.Kafka;
-using Infrastructure.Loging;
+using Infrastructure.Logging.InfluxDB;
 using Microsoft.EntityFrameworkCore;
 using Persistense;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddMvc();
 
 builder.Services
-    .AddSpecialClickhouseLogger(builder.Configuration.GetConnectionString("ClickHouse"))
+    .AddInfluexDBLogging(new InfluxConfig(
+        "http://localhost:8051",
+        @"kRhAVG6AcWwAJ9dac1xgKlTvyDQZunzsA6-WkHh3b0KNE7BQ4uaeqtFHtGye7xqHSPI_9IK9-KeHtbUbB3DvZA==",
+        "ThereFoxOrganisation",
+        "TestBucket"
+        ))
     .AddPersistense(builder.Configuration)
     .AddMessageBrocker()
     .AddApp();

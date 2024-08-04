@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense", "Persistense\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MessageBrocker", "Infrastructure.MessageBrocker\Infrastructure.MessageBrocker.csproj", "{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Loging", "Infrastructure.Loging\Infrastructure.Loging.csproj", "{2CF3B28B-65CA-4D5B-9728-A70C17A72812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Loging.ClickHouse", "Infrastructure.Loging\Infrastructure.Loging.ClickHouse.csproj", "{2CF3B28B-65CA-4D5B-9728-A70C17A72812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{904E19A5-AF34-4F9E-A819-D860D46D0C4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{904E19A5-AF34-4F9E-A819-D860D46D0C4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Logging.InfluxDB", "Infrastructure.Logging.InfluexDB\Infrastructure.Logging.InfluxDB.csproj", "{E29C6974-D4D7-47EE-B43E-3E95D5326185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{904E19A5-AF34-4F9E-A819-D860D46D0C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29C6974-D4D7-47EE-B43E-3E95D5326185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29C6974-D4D7-47EE-B43E-3E95D5326185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29C6974-D4D7-47EE-B43E-3E95D5326185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29C6974-D4D7-47EE-B43E-3E95D5326185}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
