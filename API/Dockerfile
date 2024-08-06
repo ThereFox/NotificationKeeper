@@ -7,14 +7,15 @@ EXPOSE 8080
 EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-#ARG BUILD_CONFIGURATION=Release
-ARG BUILD_CONFIGURATION=Debug
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["API/API.csproj", "API/"]
 COPY ["App/App.csproj", "App/"]
+COPY ["Common/Common.csproj", "Common/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure.Logging.InfluexDB/Persistense.Logging.InfluxDB.csproj", "Infrastructure.Logging.InfluexDB/"]
 COPY ["Infrastructure.MessageBrocker/Infrastructure.MessageBrocker.csproj", "Infrastructure.MessageBrocker/"]
-COPY ["Persistense/Persistense.csproj", "Persistense/"]
+COPY ["Persistense/Persistense.Notifications.csproj", "Persistense/"]
 RUN dotnet restore "./API/API.csproj"
 COPY . .
 WORKDIR "/src/API"
