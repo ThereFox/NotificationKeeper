@@ -14,7 +14,6 @@ public class ApplicationDBContext : DbContext
     
     public ApplicationDBContext(DbContextOptions<ApplicationDBContext> DBconfiguration) : base(DBconfiguration)
     {
-        //this.Database.EnsureDeleted();
         this.Database.EnsureCreated();
     }
     
