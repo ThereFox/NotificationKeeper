@@ -9,11 +9,12 @@ namespace Infrastructure.Kafka;
 
 public static class DI
 {
-    public static IServiceCollection AddMessageBrocker(this IServiceCollection collection)
+    public static IServiceCollection AddMessageBrocker(this IServiceCollection collection, string brockerUrl)
     {
         var config = new ProducerConfig
         {
-            BootstrapServers = "localhost:29092"
+            BootstrapServers = brockerUrl,
+            AllowAutoCreateTopics = true
         };
         
         var producer = new ProducerBuilder<Null, string>(config)

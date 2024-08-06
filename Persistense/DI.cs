@@ -11,15 +11,13 @@ public static class DI
 {
     public static IServiceCollection AddPersistense(
         this IServiceCollection services,
-        IConfiguration configuration
+        string connectionString
         )
     {
         services.AddDbContext<ApplicationDBContext>(
-            (ex) => ex.UseNpgsql(
-            configuration.GetConnectionString("Database")
-            ?? throw new InvalidCastException("Connection string missed")
-        )
-            , ServiceLifetime.Scoped);
+            (ex) => ex.UseNpgsql(connectionString)
+            , ServiceLifetime.Scoped
+            );
 
         services.AddTransient<IBlueprintStore, BlueprintStore>();
         services.AddTransient<ICustomerStore, CustomerStore>();

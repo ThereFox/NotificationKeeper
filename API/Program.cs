@@ -2,21 +2,29 @@ using App;
 using Infrastructure.Kafka;
 using Infrastructure.Logging.InfluxDB;
 using Microsoft.EntityFrameworkCore;
+using Notification.ConfigsInputObjects;
 using Persistense;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMvc();
 
+var servicesConfig = builder.Configuration.GetSection("ServicesConfigs").Get<ConnectionsForServices>();
+
+if(servicesConfig == null)
+{
+    throw new InvalidProgramException("invalid service configuration");
+}
+
 builder.Services
     .AddInfluexDBLogging(new InfluxConfig(
-        "http://localhost:8051",
-        @"kRhAVG6AcWwAJ9dac1xgKlTvyDQZunzsA6-WkHh3b0KNE7BQ4uaeqtFHtGye7xqHSPI_9IK9-KeHtbUbB3DvZA==",
-        "ThereFoxOrganisation",
-        "TestBucket"
+        servicesConfig.Logger.Host,
+        servicesConfig.Logger.Token,
+        servicesConfig.Logger.Organisation,
+        servicesConfig.Logger.Bucket
         ))
-    .AddPersistense(builder.Configuration)
-    .AddMessageBrocker()
+    .AddPersistense(servicesConfig.Database.ConnectionString)
+    .AddMessageBrocker(servicesConfig.MessageBrocker.Url)
     .AddApp();
 
 var app = builder.Build();
@@ -27,7 +35,5 @@ app.MapControllerRoute(
     "default",
     "/api/v1/{controller}/{action}"
     );
-
-app.Map("/test", () => "test");
 
 app.Run();
