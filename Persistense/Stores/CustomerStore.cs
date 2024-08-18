@@ -17,6 +17,11 @@ public class CustomerStore : ICustomerStore
     
     public async Task<Result<Customer>> Get(Guid Id)
     {
+        if (await _context.Database.CanConnectAsync() == false)
+        {
+            return Result.Failure<Customer>("database unawaliable");
+        }
+
         try
         {
 
@@ -24,46 +29,14 @@ public class CustomerStore : ICustomerStore
                 .CustomerEntities
                 .Include(ex => ex.AllDevices)
                 .AsNoTracking()
-                .FirstAsync(ex => ex.Id == Id);
+                .FirstOrDefaultAsync(ex => ex.Id == Id);
 
-            var validateCustomerRole = CustomerRole.Create(customer.Role);
-
-            if (validateCustomerRole.IsFailure)
+            if (customer == default)
             {
-                return Result.Failure<Customer>(validateCustomerRole.Error);
+                return Result.Failure<Customer>($"dont contain customer with Id {Id}");
             }
 
-            var customerRole = validateCustomerRole.Value;
-
-            var devices = customer.AllDevices.Select(ex =>
-            {
-                var validateNotificationChannel = NotificationChannel.Create(ex.NotificationChannel);
-
-                if (validateNotificationChannel.IsFailure)
-                {
-                    return null;
-                }
-
-                var channel = validateNotificationChannel.Value;
-
-                var validateDeviceResult =
-                    Device.Create(ex.Id, ex.DeviceToken, channel, ex.CreatedAt, ex.UpdatedAt, ex.IsActive);
-
-                if (validateDeviceResult.IsFailure)
-                {
-                    return null;
-                }
-
-                var device = validateDeviceResult.Value;
-
-                return device;
-            }).ToList();
-
-            var validateCustomer = Customer.Create(Id, customerRole, customer.CreatedAt, devices);
-
-
-
-            return validateCustomer;
+            return customer.ToDomain();
         }
         catch (Exception ex)
         {
@@ -71,13 +44,17 @@ public class CustomerStore : ICustomerStore
         }
     }
 
-    public async Task<Result<int>> GetCountOfNotificationByDay(Guid Id)
+    public async Task<Result<int>> GetCountOfNotificationByDayForCustomerById(Guid Id)
     {
         try
         {
             var currentDay = DateTime.Today;
 
-            var count = await _context.CustomerEntities.AsNoTracking().Where(ex => ex.Id == Id).Select(
+            var count = await _context
+                .CustomerEntities
+                .AsNoTracking()
+                .Where(ex => ex.Id == Id)
+                .Select(
                 ex => ex.ResivedNotifications.Count(not => not.CreatedAt.Date == currentDay.Date)
             ).SingleAsync();
 

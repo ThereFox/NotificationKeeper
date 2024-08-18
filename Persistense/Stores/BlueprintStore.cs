@@ -17,31 +17,24 @@ public class BlueprintStore : IBlueprintStore
     
     public async Task<Result<Blueprint>> Get(Guid id)
     {
+        if (await _context.Database.CanConnectAsync() == false)
+        {
+            return Result.Failure<Blueprint>("database unawaliable");
+        }
+
         try
         {
             var blueprint = await _context
                 .Blueprints
                 .AsNoTracking()
-                .SingleAsync(ex => ex.Id == id);
+                .FirstOrDefaultAsync(ex => ex.Id == id);
 
-            var validateNotificationChannelResult = NotificationChannel.Create(blueprint.Channel);
-
-            if (validateNotificationChannelResult.IsFailure)
+            if (blueprint == default)
             {
-                return Result.Failure<Blueprint>(validateNotificationChannelResult.Error);
+                return Result.Failure<Blueprint>($"dont contain blueprint with Id {id}");
             }
 
-            var notificationChannel = validateNotificationChannelResult.Value;
-            var validateBlueprintResult = Blueprint.Create(id, notificationChannel);
-
-            if (validateBlueprintResult.IsFailure)
-            {
-                return Result.Failure<Blueprint>(validateBlueprintResult.Error);
-            }
-            
-            var convertedBlueprint = validateBlueprintResult.Value;
-            
-            return Result.Success<Blueprint>(convertedBlueprint);
+            return blueprint.ToDomain();
         }
         catch (Exception ex)
         {
