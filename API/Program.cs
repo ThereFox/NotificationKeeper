@@ -1,6 +1,7 @@
 using App;
 using Infrastructure.Kafka;
 using Infrastructure.Logging.InfluxDB;
+using Infrastructure.MessageBrocker.ConsumerService;
 using Microsoft.EntityFrameworkCore;
 using Notification.ConfigsInputObjects;
 using Persistense;
@@ -25,7 +26,8 @@ builder.Services
         ))
     .AddPersistense(servicesConfig.Database.ConnectionString)
     .AddMessageBrocker(servicesConfig.MessageBrocker.Url)
-    .AddApp();
+    .AddApp()
+    .AddConsumerService();
 
 var app = builder.Build();
 

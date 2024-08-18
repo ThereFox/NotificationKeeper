@@ -77,6 +77,7 @@
       <ProjectReference Include="..\Common\Common.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
       <ProjectReference Include="..\Infrastructure.Logging.InfluexDB\Persistense.Logging.InfluxDB.csproj" />
+      <ProjectReference Include="..\Infrastructure.MessageBrocker.ConsumerService\Infrastructure.MessageBrocker.ConsumerService.csproj" />
       <ProjectReference Include="..\Infrastructure.MessageBrocker\Infrastructure.MessageBrocker.csproj" />
       <ProjectReference Include="..\Persistense\Persistense.Notifications.csproj" />
     </ItemGroup>
