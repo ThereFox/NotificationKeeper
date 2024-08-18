@@ -25,14 +25,12 @@ public class ApplicationDBContext : DbContext
         {
             Id = Guid.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
             CreatedAt = DateTime.MinValue,
-            UserName = "ThereFox",
             Role = CustomerRole.Base.Value,
         };
         var baseCustomerDevice = new DeviceSettingsEntity()
         {
             IsActive = true,
             CreatedAt = DateTime.MinValue,
-            DeviceToken = "test",
             NotificationChannel = NotificationChannel.Email.Value,
             Id = Guid.NewGuid(),//.Parse("a7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
             UpdatedAt = DateTime.MinValue,
@@ -46,10 +44,7 @@ public class ApplicationDBContext : DbContext
         {
             Id = Guid.Parse("b7f1cf1f-5f4f-4159-99cc-80a4e9f7c5cb"),
             Channel = NotificationChannel.Email.Value,
-            CreatedAt = DateTime.MinValue,
-            Content = "Hi",
-            Name = "Default",
-            Subject = "Hellow"
+            CreatedAt = DateTime.MinValue
         };
         
         
