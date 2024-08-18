@@ -1,4 +1,5 @@
 using System.Net;
+using App.Interfaces.Notifications;
 using App.Notifications;
 using Confluent.Kafka;
 using Infrastructure.Kafka.BrockerSender;
@@ -11,19 +12,27 @@ public static class DI
 {
     public static IServiceCollection AddMessageBrocker(this IServiceCollection collection, string brockerUrl)
     {
-        var config = new ProducerConfig
+        var producerConfig = new ProducerConfig
         {
             BootstrapServers = brockerUrl,
-            AllowAutoCreateTopics = true
+            AllowAutoCreateTopics = true,
+            Acks = Acks.All,
+            EnableIdempotence = true
         };
-        
-        var producer = new ProducerBuilder<Null, string>(config)
-            .Build();
 
-        
-        collection.AddSingleton(producer);
+        var consumerConfig = new ConsumerConfig
+        {
+            BootstrapServers = brockerUrl,
+            GroupId = "default",
+            EnableAutoCommit = false
+        };
 
-        collection.AddSingleton<INotificationSender, MessageSender>();
+        collection.AddSingleton(new ProducerBuilder<Null, string>(producerConfig).Build());
+        collection.AddSingleton(new ConsumerBuilder<Null, string>(consumerConfig).Build());
+
+
+        collection.AddScoped<INotificationSender, MessageSender>();
+        collection.AddScoped<IReportReader, ReportListener>();
 
         return collection;
     }

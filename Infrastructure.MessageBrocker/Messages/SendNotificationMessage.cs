@@ -1,8 +1,8 @@
 namespace Infrastructure.Kafka.Requests;
 
-public record SendNotificationRequest
+public record SendNotificationMessage
 (
     Guid Id,
     Guid BlueprintId,
-    string DeviceToken
+    Guid ClientId
 );

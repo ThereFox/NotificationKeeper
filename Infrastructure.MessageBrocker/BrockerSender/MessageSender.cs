@@ -7,36 +7,38 @@ using Infrastructure.Kafka.Requests;
 
 namespace Infrastructure.Kafka.BrockerSender;
 
-public class MessageSender : INotificationSender
+public sealed class MessageSender : INotificationSender
 {
-    protected readonly IProducer<Null, string> _messageProduser;
+    private readonly IProducer<Null, string> _messageProduser;
+
+
+    private readonly Dictionary<NotificationChannel, string> _channelTopicNames = new()
+    {
+        { NotificationChannel.SMS, "SmsMessages" },
+        { NotificationChannel.Android, "AndroidMessages" },
+        { NotificationChannel.Email, "EmailMessages" }
+    };
 
     public MessageSender(IProducer<Null, string> messageProduser)
     {
         _messageProduser = messageProduser;
     }
 
-    private readonly Dictionary<NotificationChannel , string> TopicNames = new()
-    {
-        { NotificationChannel.SMS, "SmsMessages" },
-        { NotificationChannel.Android, "AndroidMessages" },
-        { NotificationChannel.Email, "EmailMessages" }
-    };
     
     public async Task<Result> SendNotification(Notification notification)
     {
         try
         {
-            var notificationChannel = notification.Resiver.NotificationChannel;
+            var notificationChannel = notification.Blueprint.Channel;
 
-            var request = new SendNotificationRequest(notification.Id, notification.Blueprint.Id, notification.Resiver.Token);
+            var request = new SendNotificationMessage(notification.Id, notification.Blueprint.Id, notification.Resiver.Id);
 
             var message = new Message<Null, string>()
             {
                 Value = request.ToString(),
             };
 
-            var deliveryResult = await _messageProduser.ProduceAsync(TopicNames[notificationChannel], message);
+            var deliveryResult = await _messageProduser.ProduceAsync(_channelTopicNames[notificationChannel], message);
 
             if (deliveryResult.Status != PersistenceStatus.Persisted)
             {
