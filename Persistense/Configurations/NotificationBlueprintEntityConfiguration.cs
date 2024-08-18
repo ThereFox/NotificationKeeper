@@ -12,21 +12,6 @@ public class NotificationBlueprintEntityConfiguration : IEntityTypeConfiguration
             .HasKey(ex => ex.Id);
 
         builder
-            .Property(ex => ex.Name)
-            .HasColumnType("varchar")
-            .IsRequired();
-        
-        builder
-            .Property(ex => ex.Subject)
-            .HasColumnType("varchar")
-            .IsRequired();
-        
-        builder
-            .Property(ex => ex.Content)
-            .HasColumnType("text")
-            .IsRequired();
-
-        builder
             .Property(ex => ex.Channel)
             .IsRequired();
 

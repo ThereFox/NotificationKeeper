@@ -11,10 +11,6 @@ public class CustomerEntityConfiguration : IEntityTypeConfiguration<CustomerEnti
         builder
             .HasKey(ex => ex.Id);
 
-        builder
-            .Property(ex => ex.UserName)
-            .HasColumnType("varchar")
-            .IsRequired();
         
         builder
             .Property(ex => ex.Role)

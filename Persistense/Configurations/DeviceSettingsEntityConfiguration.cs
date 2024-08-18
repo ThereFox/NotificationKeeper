@@ -12,10 +12,6 @@ public class DeviceSettingsEntityConfiguration : IEntityTypeConfiguration<Device
             .HasKey(ex => ex.Id);
 
         builder
-            .Property(ex => ex.DeviceToken)
-            .IsRequired();
-
-        builder
             .Property(ex => ex.NotificationChannel)
             .IsRequired();
 
