@@ -22,7 +22,7 @@ namespace Infrastructure.Loging
             await _connection.OpenAsync();
 
             var command = _connection.CreateCommand();
-            var logMessage = $"notification id:{message.Id} (templateId:{message.Blueprint.Id} for {message.Resiver.Id} created at {message.SendAt}) was add to queue";
+            var logMessage = $"notification id:{message.Id} (templateId:{message.Blueprint.Id} for {message.Resiver.Id} created at {message.SendedAt}) was add to queue";
 
             command.CommandText = $"INSERT INTO {TableName} Values (@date, @logMessage)";
 
