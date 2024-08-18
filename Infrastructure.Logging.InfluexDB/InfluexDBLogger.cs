@@ -7,12 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using InfluxDB3.Client;
 using System.Text;
+using App.InputObjects;
 
 namespace Infrastructure.Logging.InfluxDB
 {
     public class InfluexDBLogger : ILogger
     {
         private readonly IInfluxDBClient _client;
+
+        private const string DefaultBucketName = "TestBucket";
 
         public InfluexDBLogger(IInfluxDBClient client)
         {
@@ -29,7 +32,7 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetStringField("ResiverId", message.Resiver.Id.ToString())
                 .SetStringField("CreatedAt", message.CreatedAt.ToString());
 
-            await _client.WritePointAsync(point, "TestBucket");
+            await _client.WritePointAsync(point, DefaultBucketName);
         }
 
         public async Task LogError(Error exception)
@@ -39,7 +42,18 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetTimestamp(DateTime.Now)
                 .SetStringField("Message", exception.ErrorMessage);
 
-            await _client.WritePointAsync(point, "TestBucket");
+            await _client.WritePointAsync(point, DefaultBucketName);
+        }
+
+        public async Task LogGetReport(SendingReport report)
+        {
+            var point = InfluxDB3.Client.Write.PointData.Measurement("Action")
+                .SetStringField("type", "Report")
+                .SetTimestamp(DateTime.Now)
+                .SetStringField("NotificationId", report.NotificationId.ToString())
+                .SetBooleanField("IsSucsessfull", report.isSucsessfull);
+
+            await _client.WritePointAsync(point, DefaultBucketName);
         }
 
         public async Task LogRequest(Guid bluepringId, Guid customerId)
@@ -51,7 +65,7 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetStringField("BlueprintId", bluepringId.ToString())
                 .SetStringField("CustomerId", customerId.ToString());
 
-            await _client.WritePointAsync(point, "TestBucket");
+            await _client.WritePointAsync(point, DefaultBucketName);
         }
     }
 }

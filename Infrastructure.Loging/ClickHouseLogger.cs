@@ -1,4 +1,5 @@
-﻿using App.Stores;
+﻿using App.InputObjects;
+using App.Stores;
 using Common;
 using Domain.Entitys;
 using Octonica.ClickHouseClient;
@@ -70,6 +71,26 @@ namespace Infrastructure.Loging
                 await command.ExecuteNonQueryAsync();
 
                 await command.DisposeAsync();
+
+
+            await _connection.CloseAsync();
+        }
+
+        public async Task LogGetReport(SendingReport report)
+        {
+            await _connection.OpenAsync();
+            var command = _connection.CreateCommand();
+
+            var logMessage = $"report with params: notificationId = {report.NotificationId} sucsess = {report.isSucsessfull}";
+
+            command.CommandText = $"INSERT INTO {TableName} Values (@date, @logMessage)";
+
+            command.Parameters.AddWithValue("@date", DateTime.Now, ClickHouseDbType.DateTime);
+            command.Parameters.AddWithValue("@logMessage", logMessage, ClickHouseDbType.String);
+
+            await command.ExecuteNonQueryAsync();
+
+            await command.DisposeAsync();
 
 
             await _connection.CloseAsync();
