@@ -1,4 +1,5 @@
-using App.Services;
+using App.InputObjects;
+using App.Services.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Request;
 
@@ -7,9 +8,9 @@ namespace Notification.Controlls;
 [Controller]
 public class NotificationSendController : Controller
 {
-    protected readonly NotificationService _service;
+    protected readonly SendNotificationUseCase _service;
 
-    public NotificationSendController(NotificationService notificationService)
+    public NotificationSendController(SendNotificationUseCase notificationService)
     {
         _service = notificationService;
     }
@@ -28,14 +29,15 @@ public class NotificationSendController : Controller
             return BadRequest("invalid input data");
         }
 
+        var InputObject = new SendNotificationDTO(Guid.Parse(request.CustomerId), Guid.Parse(request.BlueprintId));
 
-        var sendResult = await _service.Send(blueprintGuid, customerGuid);
+        var sendResult = await _service.Send(InputObject);
 
         if (sendResult.IsFailure)
         {
             return BadRequest(sendResult.Error);
         }
 
-        return Ok();
+        return Ok($"Notification with params: CustomerId {request.CustomerId} and blueprintId {request.BlueprintId} was sended");
     }
 }
