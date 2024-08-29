@@ -1,12 +1,19 @@
 using App.InputObjects;
 using App.Services.UseCases;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Request;
 
 namespace Notification.Controlls;
 
-[Controller]
-public class NotificationSendController : Controller
+/// <summary>
+/// Test
+/// </summary>
+[ApiController]
+[ApiVersion(1.0)]
+[Route("api/v{version:apiVersion}/{controller=Notification}/")]
+[ControllerName("Notification")]
+public class NotificationSendController : ControllerBase
 {
     protected readonly SendNotificationUseCase _service;
 
@@ -14,8 +21,13 @@ public class NotificationSendController : Controller
     {
         _service = notificationService;
     }
-    
-    
+
+
+    /// <summary>
+    /// Send notification
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Notify([FromBody] SendNotificationRequest request)
     {
