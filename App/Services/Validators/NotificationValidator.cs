@@ -12,11 +12,22 @@ using System.Threading.Tasks;
 
 namespace App.Services.Validators
 {
-    internal class NotificationValidator
+    public class NotificationValidator
     {
         private ICustomerStore _customerStore;
         private IBlueprintStore _blueprintStore;
         private INotificationStore _mainStore;
+
+        public NotificationValidator(
+            ICustomerStore customerStore,
+            IBlueprintStore blueprintStore,
+            INotificationStore mainStore
+            )
+        {
+            _customerStore = customerStore;
+            _blueprintStore = blueprintStore;
+            _mainStore = mainStore;
+        }
 
         internal async Task<Result<Notification>> ValidateNotification(SendNotificationDTO input)
         {

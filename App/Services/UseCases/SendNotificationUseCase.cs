@@ -22,10 +22,17 @@ public sealed class SendNotificationUseCase
 
     public SendNotificationUseCase(
         INotificationSender sender,
-        ILogger logger)
+        ILogger logger,
+        NotificationValidator validator,
+        INotificationStore notificationStore,
+        ICustomerStore customerStore
+        )
     {
         _sender = sender;
         _logger = logger;
+        _validator = validator;
+        _notificationStore = notificationStore;
+        _customerStore = customerStore;
     }
 
     public async Task<Result> Send(SendNotificationDTO input)
@@ -91,7 +98,7 @@ public sealed class SendNotificationUseCase
 
         var countOfNotification = getCountOfNotificationResult.Value;
 
-        return Result.SuccessIf(countOfNotification + 1 >= Notification.MaxCountByDay, $"too many notification for user {customer.Id}");
+        return Result.FailureIf(countOfNotification + 1 >= Notification.MaxCountByDay, $"too many notification for user {customer.Id}");
 
     }
 
