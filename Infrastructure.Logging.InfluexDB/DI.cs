@@ -15,10 +15,10 @@ namespace Infrastructure.Logging.InfluxDB
             this IServiceCollection serviceProvider,
             InfluxConfig config)
         {
-            serviceProvider.AddScoped<IInfluxDBClient, InfluxDBClient>(
+            serviceProvider.AddTransient<IInfluxDBClient, InfluxDBClient>(
                 creator => new InfluxDBClient(config.host, config.token, config.organisation, config.database)
                 );
-            serviceProvider.AddScoped<ILogger, InfluexDBLogger>();
+            serviceProvider.AddSingleton<ILogger, InfluexDBLogger>();
 
             return serviceProvider;
         }

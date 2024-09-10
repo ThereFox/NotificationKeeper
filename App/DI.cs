@@ -8,9 +8,9 @@ public static class DI
 {
     public static IServiceCollection AddApp(this IServiceCollection services)
     {
-        services.AddTransient<SendNotificationUseCase>();
-        services.AddTransient<ReportHandleUseCase>();
-        services.AddTransient<NotificationValidator>();
+        services.AddScoped<SendNotificationUseCase>();
+        services.AddSingleton<ReportHandleUseCase>();
+        services.AddScoped<NotificationValidator>();
 
         return services;
     }

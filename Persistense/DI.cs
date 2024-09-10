@@ -16,7 +16,7 @@ public static class DI
     {
         services.AddDbContext<ApplicationDBContext>(
             (ex) => ex.UseNpgsql(connectionString)
-            , ServiceLifetime.Scoped
+            , ServiceLifetime.Singleton
             );
 
         services.AddTransient<IBlueprintStore, BlueprintStore>();
