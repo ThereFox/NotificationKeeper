@@ -36,7 +36,7 @@ public class NotificationStore : INotificationStore
 
     }
 
-    public async Task<Result> SaveChanges(Notification notification)
+    public async Task<Result> UpdateSendInfo(Notification notification)
     {
         if (await _context.Database.CanConnectAsync() == false)
         {
@@ -45,8 +45,6 @@ public class NotificationStore : INotificationStore
 
         try
         {
-            var newInfo = NotificationEntity.FromDomain(notification);
-
             using(var transaction = await _context.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead))
             {
                 var oldInfo = await _context
@@ -58,10 +56,12 @@ public class NotificationStore : INotificationStore
                     return Result.Failure("dont contain init data");
                 }
 
-                oldInfo.Status = newInfo.Status;
-                oldInfo.SendAt = newInfo.SendAt;
+                oldInfo.Status = notification.Status.Value;
+                oldInfo.SendAt = notification.SendedAt;
 
                 await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
                 return Result.Success();
             }
         }
@@ -76,14 +76,14 @@ public class NotificationStore : INotificationStore
     {
         if (await _context.Database.CanConnectAsync() == false)
         {
-            return Result.Failure<Notification>("Database is unawaliable");
+            return Result.Failure("Database is unawaliable");
         }
 
         try
         {
             var saveEntity = NotificationEntity.FromDomain(notification);
 
-            _context.Notifications.Append(saveEntity);
+            _context.Add(saveEntity);
 
             await _context.SaveChangesAsync();
 
