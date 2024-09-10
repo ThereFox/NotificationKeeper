@@ -76,7 +76,7 @@ namespace Infrastructure.Loging
             await _connection.CloseAsync();
         }
 
-        public async Task LogGetReport(SendingReport report)
+        public async Task LogGetReport(ResivedReport report)
         {
             await _connection.OpenAsync();
             var command = _connection.CreateCommand();

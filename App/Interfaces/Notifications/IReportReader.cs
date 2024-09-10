@@ -10,6 +10,6 @@ namespace App.Interfaces.Notifications
 {
     public interface IReportReader
     {
-        public Task<Result<SendingReport>> GetNewMessage();
+        public Task<Result<ResivedReport>> GetNewMessage();
     }
 }

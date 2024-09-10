@@ -22,7 +22,7 @@ namespace App.Services.UseCases
             _logger = Logger;
         }
 
-        public async Task<Result> Handle(SendingReport report)
+        public async Task<Result> Handle(ResivedReport report)
         { 
             await _logger.LogGetReport(report);
 
@@ -45,7 +45,7 @@ namespace App.Services.UseCases
                 return changeStatusResult;
             }
 
-            return await _notificationStore.SaveChanges(getNotificationResult.Value);
+            return await _notificationStore.UpdateSendInfo(getNotificationResult.Value);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Infrastructure.Logging.InfluxDB
             await _client.WritePointAsync(point, DefaultBucketName);
         }
 
-        public async Task LogGetReport(SendingReport report)
+        public async Task LogGetReport(ResivedReport report)
         {
             var point = InfluxDB3.Client.Write.PointData.Measurement("Action")
                 .SetStringField("type", "Report")
