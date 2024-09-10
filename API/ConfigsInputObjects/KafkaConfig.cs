@@ -2,6 +2,7 @@
 {
     public record KafkaConfig
     (
-        string Url  
+        ProducerConfig Producer,
+        ConsumerConfig Consumer
     );
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.MessageBrocker.ConsumerService
 {
-    public static class DI
+    public static class ReportReaderServiceRegister
     {
         public static IServiceCollection AddConsumerService(this IServiceCollection services)
         {

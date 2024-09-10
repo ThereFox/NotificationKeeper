@@ -31,7 +31,7 @@ namespace Infrastructure.Reader.Trying
             {
                 for (int i = 0; i < TrysCount; i++)
                 {
-                    var tryResult = await consumer.TryGetAsync(TrysCount, TrysDeadline);
+                    var tryResult = await consumer.TryGetAsync(TrysDeadline);
 
                     if (tryResult.IsSuccess)
                     {

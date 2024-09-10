@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense.Notifications", "Persistense\Persistense.Notifications.csproj", "{3A71826F-567F-47B3-8BF1-FFE6FCB272D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MessageBrocker", "Infrastructure.MessageBrocker\Infrastructure.MessageBrocker.csproj", "{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Brocker.Kafka.Producer", "Infrastructure.MessageBrocker\Infrastructure.Brocker.Kafka.Producer.csproj", "{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense.Loging.ClickHouse", "Infrastructure.Loging\Persistense.Loging.ClickHouse.csproj", "{2CF3B28B-65CA-4D5B-9728-A70C17A72812}"
 EndProject
@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense.Logging.InfluxDB", "Infrastructure.Logging.InfluexDB\Persistense.Logging.InfluxDB.csproj", "{E29C6974-D4D7-47EE-B43E-3E95D5326185}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.MessageBrocker.ConsumerService", "Infrastructure.MessageBrocker.ConsumerService\Infrastructure.MessageBrocker.ConsumerService.csproj", "{86CB1C43-112C-4174-A865-9B1B482F4C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Brocker.Kafka.Consumer.Service", "Infrastructure.MessageBrocker.ConsumerService\Infrastructure.Brocker.Kafka.Consumer.Service.csproj", "{86CB1C43-112C-4174-A865-9B1B482F4C28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Brocker.Kafka.Consumer", "Infrastructure.MessageBrocker.Consumer\Infrastructure.Brocker.Kafka.Consumer.csproj", "{31802034-1C4C-401D-926B-C1B89A0B3E54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{86CB1C43-112C-4174-A865-9B1B482F4C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86CB1C43-112C-4174-A865-9B1B482F4C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86CB1C43-112C-4174-A865-9B1B482F4C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31802034-1C4C-401D-926B-C1B89A0B3E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31802034-1C4C-401D-926B-C1B89A0B3E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31802034-1C4C-401D-926B-C1B89A0B3E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31802034-1C4C-401D-926B-C1B89A0B3E54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
