@@ -72,15 +72,6 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\App\App.csproj" />
-      <ProjectReference Include="..\Common\Common.csproj" />
-      <ProjectReference Include="..\Domain\Domain.csproj" />
-      <ProjectReference Include="..\Infrastructure.Logging.InfluexDB\Persistense.Logging.InfluxDB.csproj" />
-      <ProjectReference Include="..\Infrastructure.MessageBrocker.ConsumerService\Infrastructure.MessageBrocker.ConsumerService.csproj" />
-      <ProjectReference Include="..\Infrastructure.MessageBrocker\Infrastructure.MessageBrocker.csproj" />
-      <ProjectReference Include="..\Persistense\Persistense.Notifications.csproj" />
-    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
@@ -90,6 +81,18 @@
       <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.7.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.7.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.7.1" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\App\App.csproj" />
+      <ProjectReference Include="..\Common\Common.csproj" />
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Infrastructure.Logging.InfluexDB\Persistense.Logging.InfluxDB.csproj" />
+      <ProjectReference Include="..\Infrastructure.MessageBrocker.ConsumerService\Infrastructure.Brocker.Kafka.Consumer.Service.csproj" />
+      <ProjectReference Include="..\Infrastructure.MessageBrocker.Consumer\Infrastructure.Brocker.Kafka.Consumer.csproj" />
+      <ProjectReference Include="..\Infrastructure.MessageBrocker\Infrastructure.Brocker.Kafka.Producer.csproj" />
+      <ProjectReference Include="..\Persistense\Persistense.Notifications.csproj" />
     </ItemGroup>
 
 	<PropertyGroup>

@@ -3,9 +3,6 @@ using Asp.Versioning;
 using Infrastructure.Kafka;
 using Infrastructure.Logging.InfluxDB;
 using Infrastructure.MessageBrocker.ConsumerService;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Notification.ConfigsInputObjects;
 using Persistense;
 
@@ -26,6 +23,8 @@ builder.Services.AddApiVersioning(ex => {
     ex.ApiVersionReader = new UrlSegmentApiVersionReader();
 });
 
+
+
 builder.Services
     .AddInfluexDBLogging(new InfluxConfig(
         servicesConfig.Logger.Host,
@@ -33,17 +32,24 @@ builder.Services
         servicesConfig.Logger.Organisation,
         servicesConfig.Logger.Bucket
         ))
-    .AddPersistense(servicesConfig.Database.ConnectionString)
-    .AddMessageBrocker(servicesConfig.MessageBrocker.Url)
+    .AddPersistense(
+        servicesConfig.Database.ConnectionString
+    )
+    .AddProducer(
+        servicesConfig.MessageBrocker.Producer.BrockerURL,
+        servicesConfig.MessageBrocker.Producer.Topics.ToDictionary()
+    )
+    .AddReportReader(
+        servicesConfig.MessageBrocker.Consumer.BrockerURL,
+        servicesConfig.MessageBrocker.Consumer.ReportTopic,
+        servicesConfig.MessageBrocker.Consumer.GroupId
+    )
+    .AddConsumerService()
     .AddApp()
-    //.AddConsumerService()
     .AddEndpointsApiExplorer()
-    .AddSwaggerGen()
-    ;
+    .AddSwaggerGen();
 
 var app = builder.Build();
-
-//app.UseHttpsRedirection();
 
 app.MapControllers();
 
