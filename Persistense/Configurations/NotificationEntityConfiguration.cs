@@ -11,6 +11,9 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
         builder
             .HasKey(ex => ex.Id);
 
+        builder.Property(ex => ex.Id)
+            .ValueGeneratedNever();
+
         builder
             .Property(ex => ex.Status)
             .HasColumnType("varchar")
@@ -24,7 +27,7 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
         builder
             .Property(ex => ex.SendAt)
             .HasColumnType("timestamp")
-            .IsRequired();
+            .HasDefaultValue(null);
 
         builder
             .HasOne(ex => ex.Customer)
