@@ -14,6 +14,6 @@ namespace App.Stores
         public Task LogRequest(Guid bluepringId, Guid customerId);
         public Task LogAddToQueue(Notification message);
         public Task LogError(Error exception);
-        public Task LogGetReport(SendingReport report);
+        public Task LogGetReport(ResivedReport report);
     }
 }
