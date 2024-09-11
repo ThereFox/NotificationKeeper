@@ -5,6 +5,7 @@ using Infrastructure.Logging.InfluxDB;
 using Infrastructure.MessageBrocker.ConsumerService;
 using Notification.ConfigsInputObjects;
 using Persistense;
+using Persistense.Cache.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,10 @@ builder.Services
         ))
     .AddPersistense(
         servicesConfig.Database.ConnectionString
+    )
+    .AddRedisCache(
+        servicesConfig.Redis.Host,
+        servicesConfig.Redis.Port
     )
     .AddProducer(
         servicesConfig.MessageBrocker.Producer.BrockerURL,
