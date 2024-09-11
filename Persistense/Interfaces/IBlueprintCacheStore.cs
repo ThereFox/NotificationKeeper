@@ -10,7 +10,7 @@ namespace Persistense.EF.Notifications.Interfaces
 {
     public interface IBlueprintCacheStore
     {
-        public Task<Result<NotificationBlueprintEntity>> TryGetBlueprint(Guid Id);
+        public Task<Result<NotificationBlueprintEntity>> GetBlueprint(Guid Id);
         public Task<Result> SaveBlueprintToCache(NotificationBlueprintEntity blueprint);
 
     }

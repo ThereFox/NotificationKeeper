@@ -10,7 +10,7 @@ namespace Persistense.EF.Notifications.Interfaces
 {
     public interface INotificationCacheStore
     {
-        public Task<Result> GetNotificationWhatWaitReport(Guid Id);
+        public Task<Result<NotificationEntity>> GetNotificationWhatWaitReport(Guid Id);
         public Task<Result> SaveNotificationWhatWaitReport(NotificationEntity notification);
         public Task<Result> DeleteNotificationWhatWaitReport(Guid Id);
 
