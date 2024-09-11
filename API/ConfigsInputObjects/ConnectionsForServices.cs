@@ -4,6 +4,7 @@
     (
         DatabaseConfig Database,
         InfluexDBConfig Logger,
-        KafkaConfig MessageBrocker
+        KafkaConfig MessageBrocker,
+        RedisConfig Redis
     );
 }
