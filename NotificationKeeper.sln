@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{55474C9B-6B0C-4AC1-8EFC-B7D5343C465B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense.Notifications", "Persistense\Persistense.Notifications.csproj", "{3A71826F-567F-47B3-8BF1-FFE6FCB272D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense.EF.Notifications", "Persistense\Persistense.EF.Notifications.csproj", "{3A71826F-567F-47B3-8BF1-FFE6FCB272D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Brocker.Kafka.Producer", "Infrastructure.MessageBrocker\Infrastructure.Brocker.Kafka.Producer.csproj", "{5BD5033B-3FA9-4997-9338-C2344E3CE0C9}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistense.Logging.InfluxD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Brocker.Kafka.Consumer.Service", "Infrastructure.MessageBrocker.ConsumerService\Infrastructure.Brocker.Kafka.Consumer.Service.csproj", "{86CB1C43-112C-4174-A865-9B1B482F4C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Brocker.Kafka.Consumer", "Infrastructure.MessageBrocker.Consumer\Infrastructure.Brocker.Kafka.Consumer.csproj", "{31802034-1C4C-401D-926B-C1B89A0B3E54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Brocker.Kafka.Consumer", "Infrastructure.MessageBrocker.Consumer\Infrastructure.Brocker.Kafka.Consumer.csproj", "{31802034-1C4C-401D-926B-C1B89A0B3E54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
