@@ -92,6 +92,8 @@
       <ProjectReference Include="..\Infrastructure.MessageBrocker.ConsumerService\Infrastructure.Brocker.Kafka.Consumer.Service.csproj" />
       <ProjectReference Include="..\Infrastructure.MessageBrocker.Consumer\Infrastructure.Brocker.Kafka.Consumer.csproj" />
       <ProjectReference Include="..\Infrastructure.MessageBrocker\Infrastructure.Brocker.Kafka.Producer.csproj" />
+      <ProjectReference Include="..\Persistense.Cache.Notifications\Persistense.Cache.Notifications.csproj" />
+      <ProjectReference Include="..\Persistense\Persistense.EF.Notifications.csproj" />
       <ProjectReference Include="..\Persistense\Persistense.Notifications.csproj" />
     </ItemGroup>
 
