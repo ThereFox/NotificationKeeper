@@ -61,7 +61,7 @@ namespace Persistense.Cache.Notifications.CacheProviders
             return JsonConvert.SerializeObject(copyForNulling);
         }
 
-        public async Task<Result<NotificationBlueprintEntity>> TryGetBlueprint(Guid Id)
+        public async Task<Result<NotificationBlueprintEntity>> GetBlueprint(Guid Id)
         {
             try
             {
