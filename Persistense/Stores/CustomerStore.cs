@@ -46,6 +46,11 @@ public class CustomerStore : ICustomerStore
 
     public async Task<Result<int>> GetCountOfNotificationByDayForCustomerById(Guid Id)
     {
+        if (await _context.Database.CanConnectAsync() == false)
+        {
+            return Result.Failure<int>("database unawaliable");
+        }
+
         try
         {
             var currentDay = DateTime.Today;
