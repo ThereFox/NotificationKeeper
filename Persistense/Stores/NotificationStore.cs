@@ -2,6 +2,7 @@ using App.Stores;
 using CSharpFunctionalExtensions;
 using Domain.Entitys;
 using Microsoft.EntityFrameworkCore;
+using Persistense.EF.Notifications.Interfaces;
 using Persistense.Entitys;
 
 namespace Persistense.Stores;
@@ -9,14 +10,25 @@ namespace Persistense.Stores;
 public class NotificationStore : INotificationStore
 {
     protected readonly ApplicationDBContext _context;
+    private readonly ICustomerCacheStore _customerCache;
+    private readonly INotificationCacheStore _notificationCache;
 
-    public NotificationStore(ApplicationDBContext context)
+    public NotificationStore(ApplicationDBContext context, ICustomerCacheStore customerCache, INotificationCacheStore notificationCache)
     {
         _context = context;
+        _customerCache = customerCache;
+        _notificationCache = notificationCache;
     }
 
     public async Task<Result<Notification>> Get(Guid id)
     {
+        var getValueFromCacheResult = await _notificationCache.GetNotificationWhatWaitReport(id);
+
+        if (getValueFromCacheResult.IsSuccess)
+        {
+            return getValueFromCacheResult.Value.ToDomain();
+        }
+
         if (await _context.Database.CanConnectAsync() == false)
         {
             return Result.Failure<Notification>("Database is unawaliable");
@@ -62,6 +74,9 @@ public class NotificationStore : INotificationStore
                 await _context.SaveChangesAsync();
 
                 await transaction.CommitAsync();
+
+                await _notificationCache.DeleteNotificationWhatWaitReport(oldInfo.Id);
+
                 return Result.Success();
             }
         }
@@ -86,6 +101,8 @@ public class NotificationStore : INotificationStore
             _context.Add(saveEntity);
 
             await _context.SaveChangesAsync();
+
+            await _customerCache.IncrementCountOfNotificationForCustomerAtDay(saveEntity.CustomerId);
 
             return Result.Success();
         }

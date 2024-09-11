@@ -3,16 +3,20 @@ using CSharpFunctionalExtensions;
 using Domain.Entitys;
 using Domain.ValueObject;
 using Microsoft.EntityFrameworkCore;
+using Persistense.EF.Notifications.Interfaces;
 
 namespace Persistense.Stores;
 
 public class CustomerStore : ICustomerStore
 {
     protected readonly ApplicationDBContext _context;
+    private readonly ICustomerCacheStore _cache;
 
-    public CustomerStore(ApplicationDBContext context)
+
+    public CustomerStore(ApplicationDBContext context, ICustomerCacheStore cache)
     {
         _context = context;
+        _cache = cache;
     }
     
     public async Task<Result<Customer>> Get(Guid Id)
@@ -46,6 +50,13 @@ public class CustomerStore : ICustomerStore
 
     public async Task<Result<int>> GetCountOfNotificationByDayForCustomerById(Guid Id)
     {
+        var getValueFromCacheResult = await _cache.GetCountOfNotificationForCustomerAtDay(Id);
+
+        if (getValueFromCacheResult.IsSuccess)
+        {
+            return getValueFromCacheResult;
+        }
+
         if (await _context.Database.CanConnectAsync() == false)
         {
             return Result.Failure<int>("database unawaliable");
