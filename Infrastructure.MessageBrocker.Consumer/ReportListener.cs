@@ -1,5 +1,6 @@
 ﻿using App.InputObjects;
 using App.Interfaces.Notifications;
+using Common.Customs;
 using CSharpFunctionalExtensions;
 using Infrastructure.Brocker.Kafka.Consumer.Messages;
 using Infrastructure.Reader;
@@ -33,12 +34,14 @@ namespace Infrastructure.Brocker.Kafka.Consumer
                 return getMessageResult.ConvertFailure<ResivedReport>();
             }
 
-            var jsonInputMessage = JsonConvert.DeserializeObject<NotificationSendReport>(getMessageResult.Value);
+            var jsonInputMessageDeserializeResult = ResultJsonDeserializer.DeserializeObject<NotificationSendReport>(getMessageResult.Value);
 
-            if(jsonInputMessage == default)
+            if(jsonInputMessageDeserializeResult.IsFailure)
             {
                 return Result.Failure<ResivedReport>("invalid value readed");
             }
+
+            var jsonInputMessage = jsonInputMessageDeserializeResult.Value;
 
             var convertedMessage = new ResivedReport(jsonInputMessage.Id, jsonInputMessage.IsSucsessfull);
 
