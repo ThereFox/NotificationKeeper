@@ -23,8 +23,8 @@ public static class ConsumerRegister
         consumer.Subscribe(topicName);
         
         collection.AddSingleton(consumer);
-        collection.AddSingleton<KafkaConsumer>();
-        collection.AddSingleton<IReportReader, ReportListener>(ex =>
+        collection.AddScoped<KafkaConsumer>();
+        collection.AddScoped<IReportReader, ReportListener>(ex =>
         {
             var consumer = ex.GetService<KafkaConsumer>();
             return new ReportListener(consumer, topicName);
