@@ -19,8 +19,8 @@ namespace Persistense.Cache.Notifications.DI
             var configuration = new ConfigurationOptions()
             {
                 AsyncTimeout = 200,
-                ChannelPrefix = RedisChannel.Literal("testApp_"),
-                ClientName = "NotificationKeeper",
+                //ChannelPrefix = RedisChannel.Literal("testApp_"),
+                //ClientName = "NotificationKeeper",
                 ConnectRetry = 3,
                 EndPoints = endpoints,
                 AbortOnConnectFail = false
