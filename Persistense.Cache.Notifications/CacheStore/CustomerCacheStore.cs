@@ -60,5 +60,19 @@ namespace Persistense.Cache.Notifications.CacheStore
                 return Result.Failure(ex.Message);
             }
         }
+
+        public async Task<Result> SetCountOfNotificationForCustomerAtDay(Guid CustomerId, int Count)
+        {
+            try
+            {
+                var saveResult = await _database.StringSetAsync(CustomerId.ToString(), Count);
+
+                return Result.SuccessIf(saveResult, "inner error");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(ex.Message);
+            }
+        }
     }
 }

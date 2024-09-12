@@ -39,6 +39,15 @@ public sealed class SendNotificationUseCase
     {
         await _logger.LogRequest(input.BlueprintId, input.CustomerId);
 
+        var notificationCountCouldntOverheadCheckResult = await hasTooManyNotificationInDayForUser(input.CustomerId);
+
+        if (notificationCountCouldntOverheadCheckResult.IsFailure)
+        {
+            await _logger.LogError(notificationCountCouldntOverheadCheckResult.AsError());
+
+            return notificationCountCouldntOverheadCheckResult;
+        }
+
         var validateResult = await _validator.ValidateNotification(input);
 
         if (validateResult.IsFailure)
@@ -49,15 +58,6 @@ public sealed class SendNotificationUseCase
         }
 
         var message = validateResult.Value;
-
-        var notificationCountCouldntOverheadCheckResult = await hasTooManyNotificationInDayForUser(message.Resiver);
-
-        if (notificationCountCouldntOverheadCheckResult.IsFailure)
-        {
-            await _logger.LogError(notificationCountCouldntOverheadCheckResult.AsError());
-
-            return notificationCountCouldntOverheadCheckResult;
-        }
 
         var saveResult = await _notificationStore.SaveNew(message);
 
@@ -87,9 +87,9 @@ public sealed class SendNotificationUseCase
         }
     }
 
-    private async Task<Result> hasTooManyNotificationInDayForUser(Customer customer)
+    private async Task<Result> hasTooManyNotificationInDayForUser(Guid customer)
     {
-        var getCountOfNotificationResult = await _customerStore.GetCountOfNotificationByDayForCustomerById(customer.Id);
+        var getCountOfNotificationResult = await _customerStore.GetCountOfNotificationByDayForCustomerById(customer);
 
         if (getCountOfNotificationResult.IsFailure)
         {
@@ -98,7 +98,7 @@ public sealed class SendNotificationUseCase
 
         var countOfNotification = getCountOfNotificationResult.Value;
 
-        return Result.FailureIf(countOfNotification + 1 >= Notification.MaxCountByDay, $"too many notification for user {customer.Id}");
+        return Result.FailureIf(countOfNotification + 1 >= Notification.MaxCountByDay, $"too many notification for user {customer}");
 
     }
 

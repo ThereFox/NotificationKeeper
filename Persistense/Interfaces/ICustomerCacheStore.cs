@@ -10,6 +10,8 @@ namespace Persistense.EF.Notifications.Interfaces
     public interface ICustomerCacheStore
     {
         public Task<Result<int>> GetCountOfNotificationForCustomerAtDay(Guid CustomerId);
+
+        public Task<Result> SetCountOfNotificationForCustomerAtDay(Guid CustomerId, int Count);
         public Task<Result> IncrementCountOfNotificationForCustomerAtDay(Guid CustomerId);
     }
 }

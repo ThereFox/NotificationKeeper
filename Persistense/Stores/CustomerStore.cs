@@ -74,6 +74,8 @@ public class CustomerStore : ICustomerStore
                 ex => ex.ResivedNotifications.Count(not => not.CreatedAt.Date == currentDay.Date)
             ).SingleAsync();
 
+            var saveResult = await _cache.SetCountOfNotificationForCustomerAtDay(Id, count);
+
             return Result.Success(count);
         }
         catch (Exception ex)
