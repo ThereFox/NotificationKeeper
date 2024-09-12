@@ -16,12 +16,12 @@ public static class DI
     {
         services.AddDbContext<ApplicationDBContext>(
             (ex) => ex.UseNpgsql(connectionString)
-            , ServiceLifetime.Singleton
+            , ServiceLifetime.Scoped
             );
 
-        services.AddTransient<IBlueprintStore, BlueprintStore>();
-        services.AddTransient<ICustomerStore, CustomerStore>();
-        services.AddTransient<INotificationStore, NotificationStore>();
+        services.AddScoped<IBlueprintStore, BlueprintStore>();
+        services.AddScoped<ICustomerStore, CustomerStore>();
+        services.AddScoped<INotificationStore, NotificationStore>();
         
         return services;
     }

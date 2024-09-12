@@ -9,7 +9,7 @@ public static class DI
     public static IServiceCollection AddApp(this IServiceCollection services)
     {
         services.AddScoped<SendNotificationUseCase>();
-        services.AddSingleton<ReportHandleUseCase>();
+        services.AddScoped<ReportHandleUseCase>();
         services.AddScoped<NotificationValidator>();
 
         return services;

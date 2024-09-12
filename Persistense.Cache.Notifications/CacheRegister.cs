@@ -12,21 +12,21 @@ namespace Persistense.Cache.Notifications
         public static IServiceCollection AddRedisCache(this IServiceCollection services, string Host, int Port, string UserName, string UserPassword)
         {
             services.AddSingleton<CacheConnectionGetter>(new CacheConnectionGetter(Host, Port, UserName, UserPassword));
-            services.AddSingleton<IConnectionMultiplexer>(
+            services.AddScoped<IConnectionMultiplexer>(
                 ex =>
                 {
                     var factory = ex.GetService<CacheConnectionGetter>();
                     return factory.GetConnection();
                 }
                 );
-            services.AddSingleton<IDatabase>(ex =>
+            services.AddScoped<IDatabase>(ex =>
             {
                 var factory = ex.GetService<IConnectionMultiplexer>();
                 return factory.GetDatabase();
             });
-            services.AddSingleton<IBlueprintCacheStore, BlueprintCacheStore>();
-            services.AddSingleton<ICustomerCacheStore, CustomerCacheStore>();
-            services.AddSingleton<INotificationCacheStore, NotificationCacheStore>();
+            services.AddScoped<IBlueprintCacheStore, BlueprintCacheStore>();
+            services.AddScoped<ICustomerCacheStore, CustomerCacheStore>();
+            services.AddScoped<INotificationCacheStore, NotificationCacheStore>();
 
             return services;
         }
