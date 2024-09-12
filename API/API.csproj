@@ -6,7 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Notification</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <UserSecretsId>5deab8f1-049c-42a6-88f8-8fab12d77401</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
