@@ -18,7 +18,13 @@ namespace Infrastructure.Logging.InfluxDB
             serviceProvider.AddScoped<IInfluxDBClient, InfluxDBClient>(
                 creator => new InfluxDBClient(config.host, config.token, config.organisation, config.database)
                 );
-            serviceProvider.AddScoped<ILogger, InfluexDBLogger>();
+            serviceProvider.AddScoped<ILogger, InfluexDBLogger>(
+                ex =>
+                {
+                    var service = ex.GetService<IInfluxDBClient>();
+                    return new InfluexDBLogger(service, config.database);
+                }
+                );
 
             return serviceProvider;
         }

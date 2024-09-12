@@ -14,12 +14,12 @@ namespace Infrastructure.Logging.InfluxDB
     public class InfluexDBLogger : ILogger
     {
         private readonly IInfluxDBClient _client;
+        private readonly string _bucketName;
 
-        private const string DefaultBucketName = "TestBucket";
-
-        public InfluexDBLogger(IInfluxDBClient client)
+        public InfluexDBLogger(IInfluxDBClient client, string bucketName)
         {
             _client = client;
+            _bucketName = bucketName;
         }
 
         public async Task LogAddToQueue(Notification message)
@@ -32,7 +32,7 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetStringField("ResiverId", message.Resiver.Id.ToString())
                 .SetStringField("CreatedAt", message.CreatedAt.ToString());
 
-            await _client.WritePointAsync(point, DefaultBucketName);
+            await _client.WritePointAsync(point, _bucketName);
         }
 
         public async Task LogError(Error exception)
@@ -42,7 +42,7 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetTimestamp(DateTime.Now)
                 .SetStringField("Message", exception.ErrorMessage);
 
-            await _client.WritePointAsync(point, DefaultBucketName);
+            await _client.WritePointAsync(point, _bucketName);
         }
 
         public async Task LogGetReport(ResivedReport report)
@@ -53,7 +53,7 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetStringField("NotificationId", report.NotificationId.ToString())
                 .SetBooleanField("IsSucsessfull", report.isSucsessfull);
 
-            await _client.WritePointAsync(point, DefaultBucketName);
+            await _client.WritePointAsync(point, _bucketName);
         }
 
         public async Task LogRequest(Guid bluepringId, Guid customerId)
@@ -65,7 +65,7 @@ namespace Infrastructure.Logging.InfluxDB
                 .SetStringField("BlueprintId", bluepringId.ToString())
                 .SetStringField("CustomerId", customerId.ToString());
 
-            await _client.WritePointAsync(point, DefaultBucketName);
+            await _client.WritePointAsync(point, _bucketName);
         }
     }
 }
