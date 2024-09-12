@@ -1,4 +1,5 @@
 using App.Stores;
+using Common;
 using CSharpFunctionalExtensions;
 using Domain.Entitys;
 using Domain.ValueObject;
@@ -11,12 +12,17 @@ public class CustomerStore : ICustomerStore
 {
     protected readonly ApplicationDBContext _context;
     private readonly ICustomerCacheStore _cache;
+    private readonly ILogger _logger;
 
 
-    public CustomerStore(ApplicationDBContext context, ICustomerCacheStore cache)
+    public CustomerStore(
+        ApplicationDBContext context,
+        ICustomerCacheStore cache,
+        ILogger logger)
     {
         _context = context;
         _cache = cache;
+        _logger = logger;
     }
     
     public async Task<Result<Customer>> Get(Guid Id)
@@ -56,6 +62,10 @@ public class CustomerStore : ICustomerStore
         {
             return getValueFromCacheResult;
         }
+        else
+        {
+            await _logger.LogError(getValueFromCacheResult.AsError());
+        }
 
         if (await _context.Database.CanConnectAsync() == false)
         {
@@ -75,6 +85,11 @@ public class CustomerStore : ICustomerStore
             ).SingleAsync();
 
             var saveResult = await _cache.SetCountOfNotificationForCustomerAtDay(Id, count);
+
+            if (saveResult.IsFailure)
+            {
+                await _logger.LogError(saveResult.AsError());
+            }
 
             return Result.Success(count);
         }

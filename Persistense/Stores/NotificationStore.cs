@@ -1,4 +1,5 @@
 using App.Stores;
+using Common;
 using CSharpFunctionalExtensions;
 using Domain.Entitys;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,18 @@ public class NotificationStore : INotificationStore
     protected readonly ApplicationDBContext _context;
     private readonly ICustomerCacheStore _customerCache;
     private readonly INotificationCacheStore _notificationCache;
+    private readonly ILogger _logger;
 
-    public NotificationStore(ApplicationDBContext context, ICustomerCacheStore customerCache, INotificationCacheStore notificationCache)
+    public NotificationStore(
+        ApplicationDBContext context,
+        ICustomerCacheStore customerCache,
+        INotificationCacheStore notificationCache,
+        ILogger logger)
     {
         _context = context;
         _customerCache = customerCache;
         _notificationCache = notificationCache;
+        _logger = logger;
     }
 
     public async Task<Result<Notification>> Get(Guid id)
@@ -27,6 +34,10 @@ public class NotificationStore : INotificationStore
         if (getValueFromCacheResult.IsSuccess)
         {
             return getValueFromCacheResult.Value.ToDomain();
+        }
+        else
+        {
+            await _logger.LogError(getValueFromCacheResult.AsError());
         }
 
         if (await _context.Database.CanConnectAsync() == false)
@@ -75,7 +86,12 @@ public class NotificationStore : INotificationStore
 
                 await transaction.CommitAsync();
 
-                await _notificationCache.DeleteNotificationWhatWaitReport(oldInfo.Id);
+                var deleteInfoResult =  await _notificationCache.DeleteNotificationWhatWaitReport(oldInfo.Id);
+
+                if (deleteInfoResult.IsFailure)
+                {
+                    await _logger.LogError(deleteInfoResult.AsError());
+                }
 
                 return Result.Success();
             }
@@ -102,7 +118,12 @@ public class NotificationStore : INotificationStore
 
             await _context.SaveChangesAsync();
 
-            await _customerCache.IncrementCountOfNotificationForCustomerAtDay(saveEntity.CustomerId);
+            var incrementResult = await _customerCache.IncrementCountOfNotificationForCustomerAtDay(saveEntity.CustomerId);
+
+            if (incrementResult.IsFailure)
+            {
+                await _logger.LogError(incrementResult.AsError());
+            }
 
             return Result.Success();
         }
