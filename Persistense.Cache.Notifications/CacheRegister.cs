@@ -9,24 +9,24 @@ namespace Persistense.Cache.Notifications
 {
     public static class CacheRegister
     {
-        public static IServiceCollection AddRedisCache(this IServiceCollection services, string Host, int Port)
+        public static IServiceCollection AddRedisCache(this IServiceCollection services, string Host, int Port, string UserName, string UserPassword)
         {
-            services.AddSingleton<CacheConnectionGetter>(new CacheConnectionGetter(Host, Port));
-            services.AddScoped<IConnectionMultiplexer>(
+            services.AddSingleton<CacheConnectionGetter>(new CacheConnectionGetter(Host, Port, UserName, UserPassword));
+            services.AddSingleton<IConnectionMultiplexer>(
                 ex =>
                 {
                     var factory = ex.GetService<CacheConnectionGetter>();
                     return factory.GetConnection();
                 }
                 );
-            services.AddScoped<IDatabase>(ex =>
+            services.AddSingleton<IDatabase>(ex =>
             {
                 var factory = ex.GetService<IConnectionMultiplexer>();
                 return factory.GetDatabase();
             });
-            services.AddScoped<IBlueprintCacheStore, BlueprintCacheStore>();
-            services.AddScoped<ICustomerCacheStore, CustomerCacheStore>();
-            services.AddScoped<INotificationCacheStore, NotificationCacheStore>();
+            services.AddSingleton<IBlueprintCacheStore, BlueprintCacheStore>();
+            services.AddSingleton<ICustomerCacheStore, CustomerCacheStore>();
+            services.AddSingleton<INotificationCacheStore, NotificationCacheStore>();
 
             return services;
         }

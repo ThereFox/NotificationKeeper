@@ -38,7 +38,9 @@ builder.Services
     )
     .AddRedisCache(
         servicesConfig.Redis.Host,
-        servicesConfig.Redis.Port
+        servicesConfig.Redis.Port,
+        servicesConfig.Redis.UserName,
+        servicesConfig.Redis.UserPassword
     )
     .AddProducer(
         servicesConfig.MessageBrocker.Producer.BrockerURL,

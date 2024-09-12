@@ -11,7 +11,7 @@ namespace Persistense.Cache.Notifications.DI
     {
         private readonly ConfigurationOptions _configuration;
 
-        public CacheConnectionGetter(string Host, int Port)
+        public CacheConnectionGetter(string Host, int Port, string UserName, string UserPassword)
         {
             var endpoints = new EndPointCollection();
             endpoints.Add(Host, Port);
@@ -22,7 +22,8 @@ namespace Persistense.Cache.Notifications.DI
                 ChannelPrefix = RedisChannel.Literal("testApp_"),
                 ClientName = "NotificationKeeper",
                 ConnectRetry = 3,
-                EndPoints = endpoints
+                EndPoints = endpoints,
+                AbortOnConnectFail = false
             };
 
             _configuration = configuration;

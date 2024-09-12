@@ -20,6 +20,7 @@ COPY ["Infrastructure.Logging.InfluexDB/Persistense.Logging.InfluxDB.csproj", "I
 COPY ["Infrastructure.MessageBrocker.ConsumerService/Infrastructure.Brocker.Kafka.Consumer.Service.csproj", "Infrastructure.MessageBrocker.ConsumerService/"]
 COPY ["Infrastructure.MessageBrocker.Consumer/Infrastructure.Brocker.Kafka.Consumer.csproj", "Infrastructure.MessageBrocker.Consumer/"]
 COPY ["Infrastructure.MessageBrocker/Infrastructure.Brocker.Kafka.Producer.csproj", "Infrastructure.MessageBrocker/"]
+COPY ["Persistense.Cache.Notifications/Persistense.Cache.Notifications.csproj", "Persistense.Cache.Notifications/"]
 COPY ["Persistense/Persistense.EF.Notifications.csproj", "Persistense/"]
 RUN dotnet restore "./API/API.csproj"
 COPY . .

@@ -37,7 +37,7 @@ namespace Persistense.Cache.Notifications.CacheStore
             }
         }
 
-        public async Task<Result> GetNotificationWhatWaitReport(Guid Id)
+        public async Task<Result<NotificationEntity>> GetNotificationWhatWaitReport(Guid Id)
         {
             try
             {
@@ -45,17 +45,17 @@ namespace Persistense.Cache.Notifications.CacheStore
 
                 if (dataById.HasValue == false)
                 {
-                    return Result.Failure<NotificationBlueprintEntity>($"Dont contain data with id {Id}");
+                    return Result.Failure<NotificationEntity>($"Dont contain data with id {Id}");
                 }
 
-                var deserializeResult = ResultJsonDeserializer.DeserializeObject<NotificationBlueprintEntity>(dataById);
+                var deserializeResult = ResultJsonDeserializer.DeserializeObject<NotificationEntity>(dataById);
 
                 return deserializeResult;
 
             }
             catch (Exception ex)
             {
-                return Result.Failure<NotificationBlueprintEntity>(ex.Message);
+                return Result.Failure<NotificationEntity>(ex.Message);
             }
         }
 

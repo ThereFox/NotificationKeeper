@@ -3,6 +3,9 @@
     public record RedisConfig
     (
         string Host,
-        int Port
+        int Port,
+        string CommonPassword,
+        string UserName,
+        string UserPassword
     );
 }
