@@ -2,6 +2,7 @@
 using App.Interfaces.Notifications;
 using App.Services.UseCases;
 using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,13 @@ namespace Infrastructure.Kafka.Service
 {
     public class ReportConsumerService : IHostedService
     {
-        private readonly IReportReader _listener;
-        private readonly ReportHandleUseCase _service;
+        private IServiceScopeFactory _scopeFactory;
 
         private CancellationTokenSource _cancelerTokenSource = new();
 
-        public ReportConsumerService(IReportReader reportSource, ReportHandleUseCase reportHandler)
+        public ReportConsumerService(IServiceScopeFactory scopeFactory)
         {
-            _listener = reportSource;
-            _service = reportHandler;
+            _scopeFactory = scopeFactory;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -34,17 +33,28 @@ namespace Infrastructure.Kafka.Service
         {
             while (_cancelerTokenSource.IsCancellationRequested == false)
             {
-                await consumeMessage();
+                await consumeMessageInNewScope();
             }
         }
 
-        private async Task consumeMessage()
+        private async Task consumeMessageInNewScope()
         {
-            var getMessageResult = await _listener.GetNewMessage();
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var readerService = scope.ServiceProvider.GetService<IReportReader>();
+                var handlerService = scope.ServiceProvider.GetService<ReportHandleUseCase>();
+
+                await consumeMessage(readerService, handlerService);
+            }
+        }
+
+        private async Task consumeMessage(IReportReader reader, ReportHandleUseCase handler)
+        {
+            var getMessageResult = await reader.GetNewMessage();
 
             if (getMessageResult.IsSuccess)
             {
-                await _service.Handle(getMessageResult.Value);
+                await handler.Handle(getMessageResult.Value);
             }
         }
 
