@@ -24,7 +24,7 @@ builder.Services.AddApiVersioning(ex => {
     ex.ApiVersionReader = new UrlSegmentApiVersionReader();
 });
 
-
+builder.Services.AddHealthChecks();
 
 builder.Services
     .AddInfluexDBLogging(new InfluxConfig(
@@ -57,6 +57,8 @@ builder.Services
     .AddSwaggerGen();
 
 var app = builder.Build();
+
+app.MapHealthChecks("/health");
 
 app.MapControllers();
 
